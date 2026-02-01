@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lời Tỏ Tình Cho Nguyễn Thị Tuyết Nhi</title>
+    <title>Lời Tỏ Tình Cho Nguyễn Thị Tuyết Nhi 💖</title>
     <style>
         * {
             margin: 0;
@@ -25,7 +25,6 @@
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
-            overflow-y: auto;
             position: relative;
         }
 
@@ -35,6 +34,17 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Canvas cho hiệu ứng particles */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
         /* Hộp quà ban đầu */
         #gift-container {
             position: relative;
@@ -42,21 +52,23 @@
         }
 
         #gift-box {
-            font-size: 120px;
+            font-size: 150px;
             cursor: not-allowed;
             margin-top: 50px;
             position: relative;
-            filter: drop-shadow(0 10px 30px rgba(255, 20, 147, 0.4));
-            transition: all 0.3s ease;
+            filter: drop-shadow(0 15px 40px rgba(255, 20, 147, 0.6));
+            transition: all 0.4s ease;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
         #gift-box.enabled {
             cursor: pointer;
-            animation: wiggle 2s infinite, glow 2s ease-in-out infinite;
+            animation: wiggle 2s infinite, glow 2s ease-in-out infinite, float 3s ease-in-out infinite;
         }
 
         #gift-box.enabled:hover {
-            transform: scale(1.1);
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 20px 60px rgba(255, 20, 147, 1));
         }
 
         #countdown {
@@ -64,56 +76,96 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 32px;
+            font-size: 36px;
             color: white;
             background: linear-gradient(135deg, #ff6b9d, #c06c84);
             border-radius: 50%;
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            animation: pulse 1s infinite;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            animation: pulse 1s infinite, rainbowBorder 3s linear infinite;
+            border: 3px solid transparent;
+        }
+
+        @keyframes rainbowBorder {
+            0% { border-color: #ff0000; }
+            16% { border-color: #ff9900; }
+            33% { border-color: #33ff00; }
+            50% { border-color: #0099ff; }
+            66% { border-color: #9900ff; }
+            83% { border-color: #ff0099; }
+            100% { border-color: #ff0000; }
         }
 
         #instruction {
             margin-top: 30px;
-            font-size: 20px;
+            font-size: 22px;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            font-weight: 500;
-            animation: fadeIn 2s ease-in-out;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            font-weight: 600;
+            animation: fadeIn 2s ease-in-out, textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 255, 255, 0.9); }
         }
 
         @keyframes pulse {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
         }
 
         @keyframes wiggle {
             0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-10deg); }
-            75% { transform: rotate(10deg); }
+            25% { transform: rotate(-12deg); }
+            75% { transform: rotate(12deg); }
         }
 
         @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 10px 30px rgba(255, 20, 147, 0.4)); }
-            50% { filter: drop-shadow(0 10px 50px rgba(255, 20, 147, 0.8)); }
+            0%, 100% { filter: drop-shadow(0 15px 40px rgba(255, 20, 147, 0.6)); }
+            50% { filter: drop-shadow(0 20px 80px rgba(255, 20, 147, 1)) drop-shadow(0 0 50px rgba(255, 255, 0, 0.8)); }
         }
 
         /* Nội dung tỏ tình */
         #love-message {
             display: none !important;
-            animation: fadeInUp 1.5s ease-in-out;
-            max-width: 700px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px 25px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            animation: fadeInUp 1.5s ease-in-out, floatMessage 4s ease-in-out infinite;
+            max-width: 750px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 40px 30px;
+            border-radius: 40px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), inset 0 0 30px rgba(255, 20, 147, 0.1);
+            backdrop-filter: blur(15px);
             margin: 20px 0;
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #love-message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes floatMessage {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
         
         #love-message.show {
@@ -122,76 +174,138 @@
 
         h1 {
             color: #ff1493;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            animation: slideDown 1s ease-out;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+            animation: slideDown 1s ease-out, rainbowText 5s linear infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes rainbowText {
+            0% { color: #ff1493; }
+            20% { color: #ff6b9d; }
+            40% { color: #c06c84; }
+            60% { color: #ff1493; }
+            80% { color: #ff6b9d; }
+            100% { color: #ff1493; }
         }
 
         .content-text {
-            font-size: 16px;
-            line-height: 1.6;
+            font-size: 17px;
+            line-height: 1.8;
             color: #555;
-            margin: 12px 0;
+            margin: 15px 0;
             text-align: left;
+            position: relative;
+            z-index: 1;
         }
 
         .content-text strong {
             color: #ff1493;
-            font-size: 20px;
+            font-size: 21px;
+            text-shadow: 1px 1px 2px rgba(255, 20, 147, 0.3);
+        }
+
+        #image-container {
+            position: relative;
+            display: inline-block;
+            margin: 25px 0;
         }
 
         img {
-            max-width: 200px;
+            max-width: 220px;
             border-radius: 50%;
-            margin: 20px 0;
-            box-shadow: 0 0 30px rgba(255, 20, 147, 0.6);
-            border: 5px solid white;
-            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 0 40px rgba(255, 20, 147, 0.8), 0 0 80px rgba(255, 20, 147, 0.4);
+            border: 6px solid white;
+            animation: float 3s ease-in-out infinite, rotate360 20s linear infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes rotate360 {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(180deg); }
+        }
+
+        /* Vòng tròn xung quanh ảnh */
+        .image-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+            border: 3px solid transparent;
+            border-radius: 50%;
+            animation: rotateRing 3s linear infinite;
+            border-top-color: #ff1493;
+            border-right-color: #ff6b9d;
+            border-bottom-color: #c06c84;
+            border-left-color: #ff1493;
+        }
+
+        @keyframes rotateRing {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         .heart {
             color: #ff1493;
-            font-size: 50px;
-            animation: heartbeat 1.5s infinite;
-            margin: 15px 0;
+            font-size: 60px;
+            animation: heartbeat 1.5s infinite, heartGlow 2s ease-in-out infinite;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6));
+        }
+
+        @keyframes heartGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.6)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 20, 147, 1)) drop-shadow(0 0 60px rgba(255, 20, 147, 0.8)); }
         }
 
         .signature {
-            font-size: 18px;
+            font-size: 19px;
             color: #ff1493;
             font-weight: 600;
-            margin-top: 15px;
+            margin-top: 20px;
             font-style: italic;
+            position: relative;
+            z-index: 1;
         }
 
         /* Nút điều khiển nhạc */
         #music-control {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
+            bottom: 25px;
+            right: 25px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, #f093fb, #f5576c);
             border: none;
             border-radius: 50%;
             color: white;
-            font-size: 24px;
+            font-size: 28px;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.5);
+            box-shadow: 0 8px 30px rgba(245, 87, 108, 0.6);
             z-index: 999;
             transition: all 0.3s ease;
             display: none;
+            animation: floatButton 3s ease-in-out infinite;
+        }
+
+        @keyframes floatButton {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         #music-control:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(245, 87, 108, 0.7);
+            transform: scale(1.2) rotate(15deg);
+            box-shadow: 0 12px 40px rgba(245, 87, 108, 0.9);
         }
 
         #music-control.show {
@@ -199,12 +313,12 @@
         }
 
         #music-control.playing {
-            animation: musicPulse 1s ease-in-out infinite;
+            animation: musicPulse 1s ease-in-out infinite, floatButton 3s ease-in-out infinite;
         }
 
         @keyframes musicPulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
         }
 
         /* Nút "Nàng đã đọc xong chưa?" */
@@ -213,15 +327,41 @@
             background: linear-gradient(135deg, #f093fb, #f5576c);
             color: white;
             border: none;
-            padding: 15px 35px;
-            font-size: 18px;
+            padding: 18px 40px;
+            font-size: 20px;
             border-radius: 50px;
             cursor: pointer;
-            margin-top: 20px;
-            animation: fadeIn 2s ease-in-out;
-            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            margin-top: 25px;
+            animation: fadeIn 2s ease-in-out, buttonBounce 2s ease-in-out infinite;
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
             transition: all 0.3s ease;
-            font-weight: 600;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        #read-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        #read-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        @keyframes buttonBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
         
         #read-button.show {
@@ -229,8 +369,8 @@
         }
 
         #read-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(245, 87, 108, 0.7);
         }
 
         /* Nút lựa chọn */
@@ -238,14 +378,34 @@
             display: none !important;
             color: white;
             border: none;
-            padding: 15px 35px;
-            font-size: 18px;
+            padding: 18px 40px;
+            font-size: 20px;
             border-radius: 50px;
             cursor: pointer;
-            margin: 10px;
+            margin: 12px;
             transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .choice-button:hover::after {
+            width: 300px;
+            height: 300px;
         }
         
         .choice-button.show {
@@ -253,16 +413,21 @@
         }
 
         .choice-button:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.08);
         }
 
         #yes-button {
             background: linear-gradient(135deg, #11998e, #38ef7d);
-            animation: fadeIn 2s ease-in-out;
+            animation: fadeIn 2s ease-in-out, yesGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes yesGlow {
+            0%, 100% { box-shadow: 0 15px 40px rgba(56, 239, 125, 0.4); }
+            50% { box-shadow: 0 20px 60px rgba(56, 239, 125, 0.8), 0 0 30px rgba(56, 239, 125, 0.6); }
         }
 
         #yes-button:hover {
-            box-shadow: 0 15px 40px rgba(56, 239, 125, 0.5);
+            box-shadow: 0 20px 60px rgba(56, 239, 125, 0.7) !important;
         }
 
         #no-button {
@@ -271,7 +436,7 @@
         }
 
         #no-button:hover {
-            box-shadow: 0 15px 40px rgba(235, 51, 73, 0.5);
+            box-shadow: 0 20px 60px rgba(235, 51, 73, 0.7);
         }
 
         /* Hình trái tim to khi đồng ý */
@@ -295,25 +460,37 @@
         }
 
         #big-heart span {
-            font-size: 250px;
-            animation: heartbeat 1.5s infinite;
-            filter: drop-shadow(0 20px 40px rgba(255, 20, 147, 0.5));
+            font-size: 280px;
+            animation: heartbeat 1.5s infinite, heartRotate 4s ease-in-out infinite;
+            filter: drop-shadow(0 30px 60px rgba(255, 20, 147, 0.7));
+        }
+
+        @keyframes heartRotate {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
         }
 
         #big-heart p {
-            font-size: 32px;
+            font-size: 36px;
             color: #ff1493;
-            margin-top: 30px;
+            margin-top: 40px;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            animation: textFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         /* Animation cho trái tim nhấp nháy */
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.15); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.2); }
+            60% { transform: scale(1); }
         }
 
         /* Animation fade-in */
@@ -325,18 +502,18 @@
         @keyframes fadeInUp {
             from { 
                 opacity: 0; 
-                transform: translateY(30px);
+                transform: translateY(50px) scale(0.9);
             }
             to { 
                 opacity: 1; 
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -347,23 +524,28 @@
         /* Hiệu ứng hoa rơi */
         .flower {
             position: fixed;
-            font-size: 30px;
+            font-size: 35px;
             animation: fall linear infinite;
             pointer-events: none;
-            z-index: 1;
-            opacity: 0.8;
+            z-index: 2;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.5));
         }
 
         @keyframes fall {
             0% { 
                 top: -10%; 
-                opacity: 0.8;
-                transform: translateX(0) rotate(0deg);
+                opacity: 0.9;
+                transform: translateX(0) rotate(0deg) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(100px) rotate(180deg) scale(1.2);
             }
             100% { 
                 top: 110%; 
                 opacity: 0;
-                transform: translateX(100px) rotate(360deg);
+                transform: translateX(200px) rotate(360deg) scale(0.8);
             }
         }
 
@@ -379,112 +561,136 @@
         .flower:nth-child(9) { left: 85%; animation-duration: 11s; animation-delay: 1s; }
         .flower:nth-child(10) { left: 95%; animation-duration: 9s; animation-delay: 3s; }
 
+        /* Thêm hiệu ứng sao lấp lánh */
+        .star {
+            position: fixed;
+            font-size: 20px;
+            animation: twinkle 2s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
             h1 { 
-                font-size: 1.4em;
-                margin-bottom: 15px;
+                font-size: 1.5em;
+                margin-bottom: 20px;
             }
             .content-text { 
-                font-size: 14px;
-                margin: 10px 0;
+                font-size: 15px;
+                margin: 12px 0;
             }
             .content-text strong {
-                font-size: 16px;
+                font-size: 18px;
             }
             #gift-box { 
-                font-size: 70px;
+                font-size: 100px;
                 margin-top: 30px;
             }
             #countdown { 
-                font-size: 20px; 
-                width: 45px; 
-                height: 45px; 
+                font-size: 24px; 
+                width: 55px; 
+                height: 55px; 
             }
             #instruction {
-                font-size: 16px;
+                font-size: 18px;
                 margin-top: 20px;
             }
             #big-heart span { 
-                font-size: 120px; 
+                font-size: 150px; 
             }
             #big-heart p { 
-                font-size: 18px; 
+                font-size: 22px; 
                 padding: 0 20px;
-                margin-top: 15px;
+                margin-top: 20px;
             }
             #love-message { 
-                padding: 20px 15px;
-                margin: 10px 0;
-            }
-            img { 
-                max-width: 130px;
+                padding: 25px 18px;
                 margin: 15px 0;
             }
+            img { 
+                max-width: 150px;
+                margin: 18px 0;
+            }
+            .image-ring {
+                width: 180px;
+                height: 180px;
+            }
             .heart {
-                font-size: 40px;
-                margin: 10px 0;
+                font-size: 50px;
+                margin: 15px 0;
             }
             .signature {
-                font-size: 16px;
-                margin-top: 10px;
+                font-size: 17px;
+                margin-top: 15px;
             }
             .choice-button { 
-                padding: 12px 25px; 
-                font-size: 15px;
-                margin: 8px;
+                padding: 14px 28px; 
+                font-size: 16px;
+                margin: 10px;
             }
             #read-button { 
-                padding: 12px 25px; 
-                font-size: 15px;
-                margin-top: 15px;
+                padding: 14px 28px; 
+                font-size: 16px;
+                margin-top: 18px;
+            }
+            .flower {
+                font-size: 25px;
             }
         }
         
         /* Cho màn hình rất nhỏ */
         @media (max-width: 480px) {
             h1 { 
-                font-size: 1.2em;
+                font-size: 1.3em;
                 line-height: 1.3;
             }
             .content-text { 
-                font-size: 13px;
+                font-size: 14px;
             }
             #gift-box { 
-                font-size: 60px;
+                font-size: 80px;
             }
             img { 
-                max-width: 110px;
+                max-width: 130px;
+            }
+            .image-ring {
+                width: 160px;
+                height: 160px;
             }
             .choice-button { 
-                padding: 10px 20px; 
-                font-size: 14px;
+                padding: 12px 24px; 
+                font-size: 15px;
             }
             #read-button { 
-                padding: 10px 20px; 
-                font-size: 14px;
-            }
-            .content-text[style*="font-size: 20px"] {
-                font-size: 16px !important;
+                padding: 12px 24px; 
+                font-size: 15px;
             }
             #music-control {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-                bottom: 15px;
-                right: 15px;
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
+                bottom: 18px;
+                right: 18px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Canvas cho particles -->
+    <canvas id="particles-canvas"></canvas>
+
     <!-- Nhạc nền lãng mạn -->
     <audio id="background-music" loop>
-        <!-- Bạn có thể thay đổi link nhạc này -->
-        <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_48f45ffd7f.mp3" type="audio/mpeg">
+        <source src="https://drive.google.com/uc?export=download&id=1BjuQrHOB7DOgOvSf_9zG0aUtpNlgERlT" type="audio/mpeg">
     </audio>
 
     <!-- Nút điều khiển nhạc -->
@@ -514,7 +720,10 @@
     <!-- Nội dung tỏ tình -->
     <div id="love-message">
         <h1>💌 Lời Nhắn Dành Cho Nguyễn Thị Tuyết Nhi 💌</h1>
-        <img src="https://i2-prod.mirror.co.uk/incoming/article11812659.ece/ALTERNATES/s1200/The-Feline-World-Gathers-For-The-Supreme-Cat-Show-2017.jpg" alt="Ảnh mèo cute" />
+        <div id="image-container">
+            <div class="image-ring"></div>
+            <img src="https://i2-prod.mirror.co.uk/incoming/article11812659.ece/ALTERNATES/s1200/The-Feline-World-Gathers-For-The-Supreme-Cat-Show-2017.jpg" alt="Ảnh mèo cute" />
+        </div>
         
         <p class="content-text"><strong>Nàng yêu ơi,</strong></p>
         
@@ -530,7 +739,7 @@
         
         <p class="heart">❤️</p>
         
-        <p class="content-text" style="text-align: center; font-size: 20px; color: #ff1493; font-weight: bold; line-height: 1.4;">
+        <p class="content-text" style="text-align: center; font-size: 20px; color: #ff1493; font-weight: bold; line-height: 1.5;">
             Tôi yêu bạn!<br>
             Liệu bạn có đồng ý làm người yêu tôi không?<br>
             Liệu bạn có cùng bước với tôi?
@@ -555,7 +764,7 @@
     <div id="big-heart">
         <span>❤️</span>
         <p>Yay! Anh yêu em nhiều lắm! 💖🎉</p>
-        <p style="font-size: 20px; margin-top: 20px;">Chúng ta sẽ viết nên câu chuyện tình yêu đẹp nhất! 🌟</p>
+        <p style="font-size: 24px; margin-top: 25px;">Chúng ta sẽ viết nên câu chuyện tình yêu đẹp nhất! 🌟</p>
     </div>
 
     <script>
@@ -567,7 +776,96 @@
         const musicControl = document.getElementById('music-control');
         let isMusicPlaying = false;
 
-        // Hàm bật/tắt nhạc
+        // ==================== PARTICLES ANIMATION ====================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 80;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.color = `rgba(255, ${Math.random() * 100 + 100}, ${Math.random() * 100 + 150}, ${Math.random() * 0.5 + 0.3})`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(255, 150, 200, ${0.2 - distance / 500})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // ==================== STARS ANIMATION ====================
+        function createStars() {
+            for (let i = 0; i < 20; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = '✨';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(star);
+            }
+        }
+        createStars();
+
+        // ==================== MUSIC CONTROLS ====================
         function toggleMusic() {
             if (isMusicPlaying) {
                 bgMusic.pause();
@@ -582,44 +880,98 @@
             }
         }
 
-        // Tự động phát nhạc khi mở quà
         function playMusic() {
             bgMusic.play().then(() => {
                 musicControl.classList.add('show', 'playing');
                 musicControl.textContent = '🎵';
                 isMusicPlaying = true;
             }).catch(() => {
-                // Nếu autoplay bị chặn, hiện nút để user tự bật
                 musicControl.classList.add('show');
                 musicControl.textContent = '🔇';
                 isMusicPlaying = false;
             });
         }
 
-        // Bắt đầu đếm ngược khi trang load
+        // ==================== COUNTDOWN TIMER ====================
         const timer = setInterval(() => {
             countdown--;
             countdownElement.textContent = countdown;
+            
+            // Thay đổi màu countdown khi gần hết
+            if (countdown <= 5) {
+                countdownElement.style.fontSize = (36 + (5 - countdown) * 4) + 'px';
+            }
+            
             if (countdown <= 0) {
                 clearInterval(timer);
                 countdownElement.style.display = 'none';
                 giftBox.classList.add('enabled');
                 instruction.innerHTML = '🎁 Nhấn vào hộp quà để mở nhé! 🎁';
-                instruction.style.animation = 'heartbeat 1s infinite';
+                instruction.style.animation = 'heartbeat 1s infinite, textGlow 2s ease-in-out infinite';
             }
         }, 1000);
 
+        // ==================== OPEN GIFT ====================
         function openGift() {
             if (!giftBox.classList.contains('enabled')) return;
-            document.getElementById('gift-container').style.display = 'none';
-            document.getElementById('instruction').style.display = 'none';
-            document.getElementById('love-message').classList.add('show');
-            document.getElementById('read-button').classList.add('show');
             
-            // Phát nhạc khi mở quà
-            playMusic();
+            // Hiệu ứng explosion
+            createExplosion();
+            
+            setTimeout(() => {
+                document.getElementById('gift-container').style.display = 'none';
+                document.getElementById('instruction').style.display = 'none';
+                document.getElementById('love-message').classList.add('show');
+                document.getElementById('read-button').classList.add('show');
+                playMusic();
+            }, 800);
         }
 
+        function createExplosion() {
+            const explosionEmojis = ['💖', '💕', '💗', '💓', '💝', '🌟', '✨', '⭐', '🎉', '🎊'];
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('div');
+                    emoji.textContent = explosionEmojis[Math.floor(Math.random() * explosionEmojis.length)];
+                    emoji.style.position = 'fixed';
+                    emoji.style.left = giftBox.getBoundingClientRect().left + giftBox.offsetWidth / 2 + 'px';
+                    emoji.style.top = giftBox.getBoundingClientRect().top + giftBox.offsetHeight / 2 + 'px';
+                    emoji.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    emoji.style.zIndex = '100';
+                    emoji.style.pointerEvents = 'none';
+                    
+                    const angle = (Math.PI * 2 * i) / 40;
+                    const velocity = Math.random() * 200 + 100;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+                    
+                    emoji.style.animation = `explode 1.5s ease-out forwards`;
+                    emoji.style.setProperty('--tx', tx + 'px');
+                    emoji.style.setProperty('--ty', ty + 'px');
+                    
+                    document.body.appendChild(emoji);
+                    setTimeout(() => emoji.remove(), 1500);
+                }, i * 20);
+            }
+        }
+
+        // Add explosion animation
+        const explosionStyle = document.createElement('style');
+        explosionStyle.textContent = `
+            @keyframes explode {
+                0% {
+                    transform: translate(0, 0) scale(1) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(var(--tx), var(--ty)) scale(0) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(explosionStyle);
+
+        // ==================== CHOICE BUTTONS ====================
         function showChoices() {
             document.getElementById('read-button').classList.remove('show');
             document.getElementById('yes-button').classList.add('show');
@@ -631,72 +983,158 @@
             document.getElementById('yes-button').classList.remove('show');
             document.getElementById('no-button').classList.remove('show');
             
-            // Tạo pháo hoa bằng emoji
-            createFireworks();
+            createMegaFireworks();
+            createFloatingHearts();
         }
 
         let yesScale = 1;
         let noScale = 1;
+        let disagreeCount = 0;
 
         function disagree() {
+            disagreeCount++;
+            
             // Tăng kích thước nút "Đồng ý"
-            yesScale += 0.3;
+            yesScale += 0.35;
             let yesBtn = document.getElementById('yes-button');
             yesBtn.style.transform = `scale(${yesScale})`;
-            yesBtn.style.fontSize = `${20 + (yesScale - 1) * 15}px`;
-            yesBtn.style.padding = `${18 + (yesScale - 1) * 10}px ${40 + (yesScale - 1) * 20}px`;
+            yesBtn.style.fontSize = `${20 + (yesScale - 1) * 18}px`;
+            yesBtn.style.padding = `${18 + (yesScale - 1) * 12}px ${40 + (yesScale - 1) * 25}px`;
 
             // Giảm kích thước nút "Không đồng ý"
-            noScale = Math.max(noScale - 0.2, 0.2);
+            noScale = Math.max(noScale - 0.25, 0.15);
             let noBtn = document.getElementById('no-button');
             noBtn.style.transform = `scale(${noScale})`;
-            noBtn.style.fontSize = `${Math.max(20 * noScale, 8)}px`;
-            noBtn.style.padding = `${Math.max(18 * noScale, 5)}px ${Math.max(40 * noScale, 15)}px`;
+            noBtn.style.fontSize = `${Math.max(20 * noScale, 6)}px`;
+            noBtn.style.padding = `${Math.max(18 * noScale, 3)}px ${Math.max(40 * noScale, 10)}px`;
             
-            // Nếu nút "Không đồng ý" quá nhỏ, làm mờ dần
-            if (noScale <= 0.4) {
+            if (noScale <= 0.5) {
                 noBtn.style.opacity = noScale;
             }
+            
+            if (noScale <= 0.2) {
+                noBtn.style.display = 'none';
+                setTimeout(() => {
+                    alert('Nút "Không đồng ý" đã biến mất! Chỉ còn một lựa chọn thôi! 💚😊');
+                }, 300);
+            }
 
-            // Random messages
             const messages = [
                 "Hãy suy nghĩ lại nhé! Anh yêu em lắm! 💕",
                 "Em thử nhấn nút xanh xem, anh hứa sẽ yêu em hết mình! 🥰",
                 "Anh sẽ đợi em mãi mãi! 💖",
                 "Nút xanh kia đang chờ em đấy! 😊",
                 "Nút xanh to hơn rồi đấy, em thấy chưa? 😄",
-                "Anh biết em sẽ chọn đúng thôi! 💚"
+                "Anh biết em sẽ chọn đúng thôi! 💚",
+                "Em có thấy nút đỏ đang nhỏ dần không? Ý trời đấy! 😇",
+                "Vũ trụ muốn chúng ta ở bên nhau! ✨💫"
             ];
-            alert(messages[Math.floor(Math.random() * messages.length)]);
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            alert(randomMessage);
+            
+            // Tạo hiệu ứng lấp lánh xung quanh nút Yes
+            createSparkles(yesBtn);
         }
 
-        function createFireworks() {
-            const colors = ['❤️', '💖', '💕', '💗', '💓', '💝', '🎉', '✨', '⭐', '🌟'];
-            for (let i = 0; i < 30; i++) {
+        function createSparkles(element) {
+            const rect = element.getBoundingClientRect();
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.textContent = '✨';
+                    sparkle.style.position = 'fixed';
+                    sparkle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                    sparkle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+                    sparkle.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    sparkle.style.zIndex = '999';
+                    sparkle.style.pointerEvents = 'none';
+                    sparkle.style.animation = 'sparkleFloat 1.5s ease-out forwards';
+                    document.body.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 1500);
+                }, i * 50);
+            }
+        }
+
+        const sparkleStyle = document.createElement('style');
+        sparkleStyle.textContent = `
+            @keyframes sparkleFloat {
+                0% {
+                    transform: translateY(0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-50px) scale(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(sparkleStyle);
+
+        // ==================== FIREWORKS ====================
+        function createMegaFireworks() {
+            const colors = ['❤️', '💖', '💕', '💗', '💓', '💝', '🎉', '✨', '⭐', '🌟', '💫', '🎊', '🌈'];
+            for (let i = 0; i < 60; i++) {
                 setTimeout(() => {
                     const firework = document.createElement('div');
                     firework.textContent = colors[Math.floor(Math.random() * colors.length)];
                     firework.style.position = 'fixed';
                     firework.style.left = Math.random() * 100 + '%';
                     firework.style.top = Math.random() * 100 + '%';
-                    firework.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    firework.style.fontSize = (Math.random() * 40 + 25) + 'px';
                     firework.style.zIndex = '1001';
-                    firework.style.animation = 'fadeIn 0.5s ease-in-out, fadeOut 2s ease-in-out 0.5s';
+                    firework.style.animation = 'fadeIn 0.3s ease-in-out, fireworkPop 2s ease-out 0.3s';
                     document.body.appendChild(firework);
-                    setTimeout(() => firework.remove(), 2500);
+                    setTimeout(() => firework.remove(), 2300);
+                }, i * 80);
+            }
+        }
+
+        function createFloatingHearts() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.textContent = ['❤️', '💖', '💕'][Math.floor(Math.random() * 3)];
+                    heart.style.position = 'fixed';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.bottom = '-50px';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.zIndex = '1001';
+                    heart.style.animation = 'floatUp 4s ease-out forwards';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 4000);
                 }, i * 100);
             }
         }
 
-        // Thêm animation fadeOut
-        const style = document.createElement('style');
-        style.textContent = `
+        const finalStyle = document.createElement('style');
+        finalStyle.textContent = `
             @keyframes fadeOut {
                 from { opacity: 1; transform: scale(1); }
                 to { opacity: 0; transform: scale(0.5); }
             }
+            @keyframes fireworkPop {
+                0% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.5); opacity: 1; }
+                100% { transform: scale(0.5); opacity: 0; }
+            }
+            @keyframes floatUp {
+                0% { 
+                    bottom: -50px; 
+                    opacity: 0; 
+                    transform: translateX(0) rotate(0deg);
+                }
+                20% {
+                    opacity: 1;
+                }
+                100% { 
+                    bottom: 110%; 
+                    opacity: 0; 
+                    transform: translateX(${Math.random() * 200 - 100}px) rotate(360deg);
+                }
+            }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(finalStyle);
     </script>
 </body>
 </html>
