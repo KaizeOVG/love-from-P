@@ -105,7 +105,7 @@
 
         /* Nội dung tỏ tình */
         #love-message {
-            display: none;
+            display: none !important;
             animation: fadeInUp 1.5s ease-in-out;
             max-width: 700px;
             background: rgba(255, 255, 255, 0.95);
@@ -114,6 +114,10 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             margin: 20px 0;
+        }
+        
+        #love-message.show {
+            display: block !important;
         }
 
         h1 {
@@ -168,7 +172,7 @@
 
         /* Nút "Nàng đã đọc xong chưa?" */
         #read-button {
-            display: none;
+            display: none !important;
             background: linear-gradient(135deg, #f093fb, #f5576c);
             color: white;
             border: none;
@@ -182,6 +186,10 @@
             transition: all 0.3s ease;
             font-weight: 600;
         }
+        
+        #read-button.show {
+            display: inline-block !important;
+        }
 
         #read-button:hover {
             transform: translateY(-3px);
@@ -190,7 +198,7 @@
 
         /* Nút lựa chọn */
         .choice-button {
-            display: none;
+            display: none !important;
             color: white;
             border: none;
             padding: 15px 35px;
@@ -201,6 +209,10 @@
             transition: all 0.3s ease;
             font-weight: 600;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .choice-button.show {
+            display: inline-block !important;
         }
 
         .choice-button:hover {
@@ -227,7 +239,7 @@
 
         /* Hình trái tim to khi đồng ý */
         #big-heart {
-            display: none;
+            display: none !important;
             position: fixed;
             top: 0;
             left: 0;
@@ -239,6 +251,10 @@
             align-items: center;
             flex-direction: column;
             animation: fadeIn 1s ease-in-out;
+        }
+        
+        #big-heart.show {
+            display: flex !important;
         }
 
         #big-heart span {
@@ -383,7 +399,6 @@
                 padding: 12px 25px; 
                 font-size: 15px;
                 margin: 8px;
-                display: inline-block !important;
             }
             #read-button { 
                 padding: 12px 25px; 
@@ -513,20 +528,20 @@
             if (!giftBox.classList.contains('enabled')) return;
             document.getElementById('gift-container').style.display = 'none';
             document.getElementById('instruction').style.display = 'none';
-            document.getElementById('love-message').style.display = 'block';
-            document.getElementById('read-button').style.display = 'inline-block';
+            document.getElementById('love-message').classList.add('show');
+            document.getElementById('read-button').classList.add('show');
         }
 
         function showChoices() {
-            document.getElementById('read-button').style.display = 'none';
-            document.getElementById('yes-button').style.display = 'inline-block';
-            document.getElementById('no-button').style.display = 'inline-block';
+            document.getElementById('read-button').classList.remove('show');
+            document.getElementById('yes-button').classList.add('show');
+            document.getElementById('no-button').classList.add('show');
         }
 
         function agree() {
-            document.getElementById('big-heart').style.display = 'flex';
-            document.getElementById('yes-button').style.display = 'none';
-            document.getElementById('no-button').style.display = 'none';
+            document.getElementById('big-heart').classList.add('show');
+            document.getElementById('yes-button').classList.remove('show');
+            document.getElementById('no-button').classList.remove('show');
             
             // Tạo pháo hoa bằng emoji
             createFireworks();
